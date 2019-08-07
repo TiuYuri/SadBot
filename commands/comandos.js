@@ -4,6 +4,6 @@ module.exports = {
 	name: 'comandos',
 	description: 'lista todos os comandos',
 	execute(message, args) {
-		message.author.send("\n.grandefamilia\n.sacanagem\n.tururu\n.poneilandia")
+		message.author.send(".babado\n.grandefamilia\n.perdadetempo\n.poneilandia\n.quedemais\n.sacanagem\n.tururu")
 	},
 };
