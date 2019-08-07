@@ -6,7 +6,6 @@
     "author": "TiuYuri",
     "dependencies": {
         "discord.js": "^11.5.1",
-        "node-opus": "^0.3.2",
-        "winston": "^3.2.0"
+        "node-opus": "^0.3.2"
     }
 }

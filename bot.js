@@ -1,58 +1,40 @@
-var Discord = require('discord.js');
-var logger = require('winston');
-logger.remove(logger.transports.Console);
-logger.add(new logger.transports.Console, {
-    colorize: true
-});
-logger.level = 'debug';
-// Initialize Discord Bot
-var bot = new Discord.Client({
-   token: process.env.BOT_TOKEN,
-   autorun: true
-});
+const fs = require('fs');
+const Discord = require('discord.js');
+const { prefix, token } = require('./config.json');
 
 var isReady = true;
 
-bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
+const client = new Discord.Client();
+client.commands = new Discord.Collection();
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.name, command);
+}
+
+client.once('ready', () => {
+	console.log('Ready!');
 });
 
-bot.on("message", (message) => {
-    if (isReady && message.content.startsWith(".")) {
+client.on('message', message => {
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-        isReady = false;
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const commandName = args.shift().toLowerCase();
 
-        switch(message.content){
-            case '.poneilandia': 
-            sendAudio(message,"poneilandia");
-            break;
-            case '.sacanagem': 
-            sendAudio(message,"sacanagem");
-            break;
-            case '.tururu': 
-            sendAudio(message,"tururu");
-            break;
-            case '.grandefamilia': 
-            sendAudio(message,"grandefamilia");
-            break;
-            case '.comandos':
-                    message.author.send("\n.grandefamilia\n.sacanagem\n.tururu\n.poneilandia")
-            break;
-            
+    if (!client.commands.has(commandName)) return;
 
-        }
+    const command = client.commands.get(commandName);
+
+    try {
+        command.execute(message, args);
+        command
+    } catch (error) {
+        console.error(error);
+        message.reply('there was an error trying to execute that command!');
     }
 });
 
-function sendAudio(message, audioName){
-    var voiceChannel = message.member.voiceChannel;
-    voiceChannel.join().then(connection =>{
-        const dispatcher = connection.playFile("./audios/" + audioName + ".mp3");
-        dispatcher.on("end", end => {
-            voiceChannel.leave();
-            isReady = true;
-        });
-    }).catch(err => console.log(err));
-}
+client.login(process.env.BOT_TOKEN);
