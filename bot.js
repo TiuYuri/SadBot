@@ -50,7 +50,7 @@ bot.on("message", (message) => {
             }).catch(err => console.log(err));
             break;
             case '.comandos':
-                    message.author.sendMessage("\n.grandefamilia\n.sacanagem\n.tururu\n.poneilandia")
+                    message.author.send("\n.grandefamilia\n.sacanagem\n.tururu\n.poneilandia")
             break;
             
 
