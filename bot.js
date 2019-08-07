@@ -24,13 +24,36 @@ bot.on("message", (message) => {
             break;
             case '.sacanagem': 
             voiceChannel.join().then(connection =>{
-                const dispatcher = connection.playFile('./audios/sacanagem_comigo.mp3');
+                const dispatcher = connection.playFile('./audios/sacanagem.mp3');
                 dispatcher.on("end", end => {
                     voiceChannel.leave();
                     isReady = true;
                 });
             }).catch(err => console.log(err));
             break;
+            case '.tururu': 
+            voiceChannel.join().then(connection =>{
+                const dispatcher = connection.playFile('./audios/tururu.mp3');
+                dispatcher.on("end", end => {
+                    voiceChannel.leave();
+                    isReady = true;
+                });
+            }).catch(err => console.log(err));
+            break;
+            case '.grandefamilia': 
+            voiceChannel.join().then(connection =>{
+                const dispatcher = connection.playFile('./audios/grandefamilia.mp3');
+                dispatcher.on("end", end => {
+                    voiceChannel.leave();
+                    isReady = true;
+                });
+            }).catch(err => console.log(err));
+            break;
+            case '.comandos':
+                    message.author.sendMessage("\n.grandefamilia\n.sacanagem\n.tururu\n.poneilandia")
+            break;
+            
+
         }
     }
 });
