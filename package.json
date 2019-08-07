@@ -1,11 +1,12 @@
 {
     "name": "SadBot",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "deveria tocar uns sons top",
     "main": "bot.js",
     "author": "TiuYuri",
     "dependencies": {
         "discord.js": "^11.5.1",
-        "node-opus": "^0.3.2"
+        "node-opus": "^0.3.2",
+        "winston": "^3.2.0"
     }
 }
